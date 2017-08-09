@@ -78,4 +78,12 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
             return "loginOK";
         }
     }
+
+    /**
+     * 退出功能
+     * */
+    public String exit(){
+        ServletActionContext.getRequest().getSession().removeAttribute("existUser");
+        return LOGIN;
+    }
 }

@@ -40,6 +40,7 @@
         <property name="mappingResources">
             <list>
                 <value>com/crm/domain/User.hbm.xml</value>
+                <value>com/crm/domain/Customer.hbm.xml</value>
             </list>
         </property>
     </bean>
@@ -57,16 +58,28 @@
         <property name="userService" ref="userService"/>
     </bean>
 
+    <bean id="customerAction" class="com.crm.web.action.CustomerAction" scope="prototype">
+        <property name="customerService" ref="customerService"/>
+    </bean>
+
 
     <!--配置Service-->
     <bean id="userService" class="com.crm.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean id="customerService" class="com.crm.service.impl.CustomerServiceImpl">
+        <property name="customerDao" ref="customerDao"/>
+    </bean>
+
 
 
     <!--配置Dao   Dao都需要继承HibernateDaoSupport，注入sessionFactory-->
     <bean id="userDao" class="com.crm.dao.impl.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="customerDao" class="com.crm.dao.impl.CustomerDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

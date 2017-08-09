@@ -50,7 +50,7 @@ TD {
                         $("#codeId").html("可以注册");
                     }
                 }
-            })
+            });
         }
     }
 
@@ -107,16 +107,17 @@ style="LEFT: 0px; POSITION: absolute; TOP: 0px; BACKGROUND-COLOR: #0066ff"></DIV
                 </TR>
               <TR>
                 <TD style="HEIGHT: 28px">登录密码：</TD>
-                <TD style="HEIGHT: 28px"><INPUT id="user_password" style="WIDTH: 130px"
-                  type=password name="user_password"></TD>
-                <TD style="HEIGHT: 28px"><SPAN id=RequiredFieldValidator4 
-                  style="FONT-WEIGHT: bold; VISIBILITY: hidden; COLOR: white">请输入密码</SPAN></TD></TR>
+                <TD style="HEIGHT: 28px">
+                  <INPUT id="user_password" style="WIDTH: 130px" type=password name="user_password">
+                </TD>
+                <TD style="HEIGHT: 28px"><SPAN id="pwdID" style="FONT-WEIGHT: bold;"></SPAN></TD></TR>
               <TR>
                 <TD style="HEIGHT: 28px">用户姓名：</TD>
-                <TD style="HEIGHT: 28px"><INPUT id="user_name" style="WIDTH: 130px"
-                                                type=text name="user_name"></TD>
                 <TD style="HEIGHT: 28px">
-                  <SPAN id=RequiredFieldValidator4 style="FONT-WEIGHT: bold;"></SPAN></TD></TR>
+                  <INPUT id="user_name" style="WIDTH: 130px" name="user_name">
+                </TD>
+                <TD style="HEIGHT: 28px">
+                  <SPAN id="nameId" style="FONT-WEIGHT: bold;"></SPAN></TD></TR>
               <TR>
                 <TD style="HEIGHT: 18px"></TD>
                 <TD style="HEIGHT: 18px"></TD>
