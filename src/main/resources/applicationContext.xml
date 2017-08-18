@@ -41,6 +41,7 @@
             <list>
                 <value>com/crm/domain/User.hbm.xml</value>
                 <value>com/crm/domain/Customer.hbm.xml</value>
+                <value>com/crm/domain/Dict.hbm.xml</value>
             </list>
         </property>
     </bean>

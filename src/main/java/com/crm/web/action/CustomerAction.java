@@ -1,9 +1,13 @@
 package com.crm.web.action;
 
 import com.crm.domain.Customer;
+import com.crm.domain.PageBean;
 import com.crm.service.CustomerService;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.util.ValueStack;
+import org.hibernate.criterion.DetachedCriteria;
 
 /**
  * 客户的控制层
@@ -33,6 +37,36 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		customerService.save(customer);
 		
 		return NONE;
+	}
+
+	//属性驱动的方法
+	//当前页，默认值就是1
+	private Integer pageCode=1;
+	public void setPageCode(Integer pageCode) {
+		if(pageCode == null){
+			pageCode=1;
+		}
+		this.pageCode = pageCode;
+	}
+	//每页显示数据的条数
+	private Integer pageSize=2;
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	/**
+	 * 分页查询的方法
+	 * */
+	public String findByPage(){
+		//调用业务层
+		DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+		//查询
+		PageBean<Customer> page=customerService.findByPage(pageCode,pageSize,criteria);
+		//压栈
+		ValueStack vs = ActionContext.getContext().getValueStack();
+		//栈顶是map<"page",page对象>
+		vs.set("page",page);
+		return "page";
 	}
 
 }

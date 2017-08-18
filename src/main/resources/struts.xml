@@ -16,7 +16,7 @@
         </action>
 
         <action name="customer_*" class="customerAction" method="{1}">
-
+            <result name="page">/jsp/customer/list.jsp</result>
         </action>
         
     </package>
