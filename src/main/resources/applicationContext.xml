@@ -74,13 +74,26 @@
     </bean>
 
 
-
     <!--配置Dao   Dao都需要继承HibernateDaoSupport，注入sessionFactory-->
     <bean id="userDao" class="com.crm.dao.impl.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <bean id="customerDao" class="com.crm.dao.impl.CustomerDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <!--字典-->
+    <bean id="dictAction" class="com.crm.web.action.DictAction" scope="prototype">
+        <property name="dictService" ref="dictService"/>
+    </bean>
+
+    <bean id="dictService" class="com.crm.service.impl.DictServiceImpl">
+        <property name="dictDao" ref="dictDao"/>
+    </bean>
+
+    <bean id="dictDao" class="com.crm.dao.impl.DictDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

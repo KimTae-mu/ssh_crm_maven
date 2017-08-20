@@ -9,7 +9,7 @@
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 <SCRIPT language=javascript>
 	function to_page(page){
 		if(page){
@@ -18,6 +18,54 @@
 		document.customerForm.submit();
 		
 	}
+
+	//页面的加载
+	$(function () {
+	    //发送ajax的请求
+		var url="${pageContext.request.contextPath }/dictAction_findByCode.action";
+		var param={"dict_type_code":"006"};
+		$.ajax({
+            type:"post",
+            url:url,
+			data:param,
+			dateType:"json",
+			success:function (data) {
+                //遍历
+				$(data).each(function (i,n) {
+				    //先获取值栈中的值，使用EL表达式
+					var vsId="${model.level.dict_id}";
+					//值栈中的id值和遍历的id值，让被选中
+					if(vsId == n.dict_id){
+                        //jq的DOM操作
+                        $('#levelId').append("<option value='"+n.dict_id+"' selected>"+n.dict_item_name+"</option>")
+                    }else {
+                        $('#levelId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                    }
+                });
+            }
+		});
+
+		//获取来源
+        var param={"dict_type_code":"002"};
+        $.ajax({
+            type:"post",
+            url:url,
+            data:param,
+            dateType:"json",
+            success:function (data) {
+                //遍历
+                $(data).each(function (i,n) {
+                    var vsId="${model.source.dict_id }";
+                    if(vsId == n.dict_id){
+                        //jq的DOM操作
+                        $('#sourceId').append("<option value='"+n.dict_id+"' selected>"+n.dict_item_name+"</option>")
+                    }else {
+                        $('#sourceId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                    }
+                });
+            }
+        });
+    })
 </SCRIPT>
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
@@ -62,11 +110,29 @@
 											<TBODY>
 												<TR>
 													<TD>客户名称：</TD>
-													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="custName"></TD>
+													<TD>
+														<INPUT class=textbox id=sChannel2
+														style="WIDTH: 80px" maxLength=50 name="cust_name" value="${model.cust_name }">
+													</TD>
+
+													<td>客户级别</td>
+													<td>
+														<select name="level.dict_id" id="levelId">
+															<option value="">--请选择--</option>
+														</select>
+													</td>
+
+													<td>客户来源</td>
+													<td>
+														<select name="source.dict_id" id="sourceId">
+															<option value="">--请选择--</option>
+														</select>
+													</td>
 													
-													<TD><INPUT class=button id=sButton2 type=submit
-														value=" 筛选 " name=sButton2></TD>
+													<TD>
+														<INPUT class=button id=sButton2 type=submit
+														value=" 筛选 " name=sButton2>
+													</TD>
 												</TR>
 											</TBODY>
 										</TABLE>

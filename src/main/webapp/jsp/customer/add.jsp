@@ -12,11 +12,48 @@
 
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript">
+        //页面的加载
+        $(function () {
+            //发送ajax的请求
+            var url="${pageContext.request.contextPath }/dictAction_findByCode.action";
+            var param={"dict_type_code":"006"};
+            $.ajax({
+                type:"post",
+                url:url,
+                data:param,
+                dateType:"json",
+                success:function (data) {
+                    //遍历
+                    $(data).each(function (i,n) {
+                            $('#levelId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                    });
+                }
+            });
+
+            //获取来源
+            var param={"dict_type_code":"002"};
+            $.ajax({
+                type:"post",
+                url:url,
+                data:param,
+                dateType:"json",
+                success:function (data) {
+                    //遍历
+                    $(data).each(function (i,n) {
+                            $('#sourceId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                    });
+                }
+            });
+        })
+	</script>
+
 </HEAD>
 <BODY>
 	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/customerServlet?method=addsubmit"
-		method=post>
+		action="${pageContext.request.contextPath }/customer_save.action"
+		method="post" enctype="multipart/form-data"><%--包含文件上传的表单必须包含这两个属性，method="post" enctype="multipart/form-data"--%>
 		
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
@@ -53,12 +90,11 @@
 								<td>客户名称：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custName">
+														style="WIDTH: 180px" maxLength=50 name="cust_name">
 								</td>
 								<td>客户级别 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custLevel">
+									<select name="level.dict_id" id="levelId"></select>
 								</td>
 							</TR>
 							
@@ -66,13 +102,12 @@
 								
 								<td>信息来源 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custSource">
+									<select name="source.dict_id" id="sourceId"></select>
 								</td>
 								<td>联系人：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custLinkman">
+														style="WIDTH: 180px" maxLength=50 name="cust_linkman">
 								</td>
 							</TR>
 							
@@ -82,12 +117,12 @@
 								<td>固定电话 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custPhone">
+														style="WIDTH: 180px" maxLength=50 name="cust_phone">
 								</td>
 								<td>移动电话 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custMobile">
+														style="WIDTH: 180px" maxLength=50 name="cust_mobile">
 								</td>
 							</TR>
 							
@@ -95,7 +130,7 @@
 								<td>联系地址 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custAddress">
+														style="WIDTH: 180px" maxLength=50 name="cust_address">
 								</td>
 								<td>邮政编码 ：</td>
 								<td>
@@ -109,10 +144,9 @@
 								<INPUT class=textbox id=sChannel2
 														style="WIDTH: 180px" maxLength=50 name="custFax">
 								</td>
-								<td>客户网址 ：</td>
+								<td>上传资质 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custWebsite">
+									<input type="file" name="upload"/>
 								</td>
 							</TR>
 							<tr>

@@ -17,6 +17,13 @@
 
         <action name="customer_*" class="customerAction" method="{1}">
             <result name="page">/jsp/customer/list.jsp</result>
+            <result name="initAddUI">/jsp/customer/add.jsp</result>
+            <result name="save" type="redirectAction">customer_findByPage.action</result>
+        </action>
+
+        <!--字典模块-->
+        <action name="dictAction_*" class="dictAction" method="{1}">
+
         </action>
         
     </package>
