@@ -4,14 +4,17 @@ import com.crm.domain.Customer;
 import com.crm.domain.Dict;
 import com.crm.domain.PageBean;
 import com.crm.service.CustomerService;
+import com.crm.utils.UploadUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 客户的控制层
@@ -122,12 +125,21 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	 * 保存客户的方法
 	 * @return
 	 */
-	public String save(){
+	public String save() throws IOException {
 		//做文件的上传
 		if(uploadFileName != null){
 			//打印
-			System.out.println("文件名称；"+uploadFileName);
 			System.out.println("文件类型；"+uploadContentType);
+			//把文件的名称处理一下
+			String uuidName = UploadUtils.getUUIDName(uploadFileName);
+			//把文件上传到tomcat服务器下面的upload文件夹中
+			String path="E:\\apache-tomcat-7.0.73\\webapps\\upload\\";
+			File file=new File(path+uuidName);
+			//简单方式
+			FileUtils.copyFile(upload,file);
+
+			//把上传的文件的路径，保存到客户表中
+			customer.setFilepath(path+uuidName);
 		}
 
 
@@ -135,6 +147,62 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		customerService.save(customer);
 
 		return "save";
+	}
+
+	/**
+	 * 删除客户
+	 * */
+	public String delete(){
+		//删除客户，获取客户的信息，获取到上传文件的路径
+		customer=customerService.findById(customer.getCust_id());
+		//获取上传文件的路径
+		String filepath=customer.getFilepath();
+		//删除客户
+		customerService.delete(customer);
+
+		//再删除文件
+		File file=new File(filepath);
+		if(file.exists()){
+			file.delete();
+		}
+
+		return "delete";
+	}
+
+	/**
+	 * 跳转到初始化修改的页面
+	 * */
+	public String initUpdate(){
+		customer = customerService.findById(this.customer.getCust_id());
+		return "initUpdate";
+	}
+
+	/**
+	 * 修改客户
+	 * */
+	public String update() throws IOException {
+		//判断	说明客户上传了新的图片
+		if(uploadFileName != null){
+			//先删除旧的图片
+			String oldFilepath = customer.getFilepath();
+			if(oldFilepath != null && !oldFilepath.trim().isEmpty()){
+				//说明，旧的路径存在，需要删除图片
+				File f=new File(oldFilepath);
+				f.delete();
+			}
+			//上传新的图片
+			//先处理文件的名称问题
+			String uuidName = UploadUtils.getUUIDName(uploadFileName);
+			String path="E:\\apache-tomcat-7.0.73\\webapps\\upload\\";
+			File file=new File(path+uuidName);
+			FileUtils.copyFile(upload,file);
+			//把客户新图片的路径更新到数据库中
+			customer.setFilepath(path+uuidName);
+		}
+		//更新客户的信息
+		customerService.update(customer);
+
+		return "update";
 	}
 
 }

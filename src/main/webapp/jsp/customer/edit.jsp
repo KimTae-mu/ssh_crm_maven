@@ -12,14 +12,69 @@
 
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
+
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+	<SCRIPT language=javascript>
+        //页面的加载
+        $(function () {
+            //发送ajax的请求
+            var url="${pageContext.request.contextPath }/dictAction_findByCode.action";
+            var param={"dict_type_code":"006"};
+            $.ajax({
+                type:"post",
+                url:url,
+                data:param,
+                dateType:"json",
+                success:function (data) {
+                    //遍历
+                    $(data).each(function (i,n) {
+                        //先获取值栈中的值，使用EL表达式
+                        var vsId="${model.level.dict_id}";
+                        //值栈中的id值和遍历的id值，让被选中
+                        if(vsId == n.dict_id){
+                            //jq的DOM操作
+                            $('#levelId').append("<option value='"+n.dict_id+"' selected>"+n.dict_item_name+"</option>")
+                        }else {
+                            $('#levelId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                        }
+                    });
+                }
+            });
+
+            //获取来源
+            var param={"dict_type_code":"002"};
+            $.ajax({
+                type:"post",
+                url:url,
+                data:param,
+                dateType:"json",
+                success:function (data) {
+                    //遍历
+                    $(data).each(function (i,n) {
+                        var vsId="${model.source.dict_id }";
+                        if(vsId == n.dict_id){
+                            //jq的DOM操作
+                            $('#sourceId').append("<option value='"+n.dict_id+"' selected>"+n.dict_item_name+"</option>")
+                        }else {
+                            $('#sourceId').append("<option value='"+n.dict_id+"'>"+n.dict_item_name+"</option>")
+                        }
+                    });
+                }
+            });
+        })
+	</SCRIPT>
 </HEAD>
 <BODY>
 	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/customerServlet?method=editsubmit"
-		method=post>
-		<input type="hidden" name="custId" value="${customer.custId }"/>
+		action="${pageContext.request.contextPath }/customer_update.action"
+		method="post" enctype="multipart/form-data">
+		<%--隐藏的客户的主键--%>
+		<input type="hidden" name="cust_id" value="${model.cust_id }"/>
+		<%--隐藏文件上传的路径--%>
+		<input type="hidden" name="filepath" value="${model.filepath }"/>
 
-		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
+
+			<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
 					<TD width=15><IMG src="${pageContext.request.contextPath }/images/new_019.jpg"
@@ -50,25 +105,23 @@
 								<td>客户名称：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-											style="WIDTH: 180px" maxLength=50 name="custName" value="${customer.custName }">
+											style="WIDTH: 180px" maxLength=50 name="cust_name" value="${model.cust_name }">
 								</td>
 								<td>客户级别 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custLevel" value="${customer.custLevel }">
+									<select name="level.dict_id" id="levelId"></select>
 								</td>
 							</TR>
 							
 							<TR>
 								<td>信息来源：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custSource" value="${customer.custSource }">
+									<select name="source.dict_id" id="sourceId"></select>
 								</td>
 								<td>联系人：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custLinkman" value="${customer.custLinkman }">
+														style="WIDTH: 180px" maxLength=50 name="cust_linkman" value="${model.cust_linkman }">
 								</td>
 							</TR>
 							<TR>
@@ -77,37 +130,19 @@
 								<td>固定电话 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custPhone" value="${customer.custPhone }">
+														style="WIDTH: 180px" maxLength=50 name="cust_phone" value="${model.cust_phone }">
 								</td>
 								<td>移动电话 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custMobile" value="${customer.custMobile }">
+														style="WIDTH: 180px" maxLength=50 name="cust_mobile" value="${model.cust_mobile }">
 								</td>
 							</TR>
-							
+
 							<TR>
-								<td>联系地址 ：</td>
+								<td>上传资质 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custAddress" value="${customerDetail.custAddress }">
-								</td>
-								<td>邮政编码 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custZip" value="${customerDetail.custZip }">
-								</td>
-							</TR>
-							<TR>
-								<td>客户传真 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custFax" value="${customerDetail.custFax }">
-								</td>
-								<td>客户网址 ：</td>
-								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="custWebsite" value="${customerDetail.custWebsite }">
+									<input type="file" name="upload"/>
 								</td>
 							</TR>
 							<tr>

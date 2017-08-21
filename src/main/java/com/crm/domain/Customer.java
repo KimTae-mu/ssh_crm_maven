@@ -22,7 +22,18 @@ public class Customer {
 	private Dict industry;
 	//一客户级别 多是客户
 	private Dict level;
-	
+
+	//上传文件保存的路径
+	private String filepath;
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
+
 	public Long getCust_id() {
 		return cust_id;
 	}

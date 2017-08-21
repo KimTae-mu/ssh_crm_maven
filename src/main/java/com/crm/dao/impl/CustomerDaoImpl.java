@@ -52,4 +52,25 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
         return page;
     }
 
+    /**
+	 * 通过主键，查询客户
+	 * */
+    public Customer findById(Long cust_id) {
+        return this.getHibernateTemplate().get(Customer.class,cust_id);
+    }
+
+    /**
+	 * 删除客户
+	 * */
+	public void delete(Customer customer) {
+		this.getHibernateTemplate().delete(customer);
+	}
+
+	/**
+	 * 更新客户
+	 * */
+	public void update(Customer customer) {
+		this.getHibernateTemplate().update(customer);
+	}
+
 }

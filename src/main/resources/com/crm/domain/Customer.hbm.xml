@@ -17,6 +17,9 @@
 		<property name="cust_phone" column="cust_phone"/>
 		<property name="cust_mobile" column="cust_mobile"/>
 
+		<!--上传文件保存的路径-->
+		<property name="filepath" column="filepath"/>
+
 		<!--配置多方的标签 name是JavaBean的属性名称 class是一方类的全路径 column是外键的名称-->
 		<many-to-one name="source" class="com.crm.domain.Dict" column="cust_source"/>
 		<many-to-one name="industry" class="com.crm.domain.Dict" column="cust_industry"/>

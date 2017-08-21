@@ -36,4 +36,25 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.findByPage(pageCode,pageSize,criteria);
     }
 
+    /**
+	 * 通过主键，查询客户
+	 * */
+    public Customer findById(Long cust_id) {
+        return customerDao.findById(cust_id);
+    }
+
+    /**
+	 * 删除客户
+	 * */
+	public void delete(Customer customer) {
+		customerDao.delete(customer);
+	}
+
+	/**
+	 * 修改客户
+	 * */
+	public void update(Customer customer) {
+		customerDao.update(customer);
+	}
+
 }
