@@ -57,4 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDao.update(customer);
 	}
 
+	/**
+	 * 查询所有客户
+	 * */
+    public List<Customer> findAll() {
+        return customerDao.findAll();
+    }
+
 }

@@ -6,9 +6,9 @@ import com.crm.domain.Customer;
 import com.crm.domain.PageBean;
 import org.hibernate.criterion.DetachedCriteria;
 
-public interface CustomerDao {
+public interface CustomerDao extends BaseDao<Customer> {
 	
-	public void save(Customer customer);
+/*	public void save(Customer customer);
 
     public PageBean<Customer> findByPage(Integer pageCode, Integer pageSize, DetachedCriteria criteria);
 
@@ -16,5 +16,5 @@ public interface CustomerDao {
 
     public void delete(Customer customer);
 
-    public void update(Customer customer);
+    public void update(Customer customer);*/
 }

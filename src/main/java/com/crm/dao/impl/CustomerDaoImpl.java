@@ -14,19 +14,25 @@ import com.crm.domain.Customer;
  * 持久层
  * @author Administrator
  */
-public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao {
-	
+public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDao {
+
+	/**
+	 * 好理解的方式：
+	 * public CustomerDaoImpl() {
+		//调用父类的构造方法
+		super(Customer.class);
+	}*/
+
 	/**
 	 * 保存客户
-	 */
 	public void save(Customer customer) {
 		// 把数据，保存到数据库中
 		this.getHibernateTemplate().save(customer);
 	}
+	 */
 
 	/**
 	 * 分页的查询
-	 * */
     public PageBean<Customer> findByPage(Integer pageCode, Integer pageSize, DetachedCriteria criteria) {
     	PageBean<Customer> page=new PageBean<Customer>();
     	page.setPageCode(pageCode);
@@ -51,26 +57,27 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao 
 
         return page;
     }
+	 * */
 
     /**
 	 * 通过主键，查询客户
-	 * */
     public Customer findById(Long cust_id) {
         return this.getHibernateTemplate().get(Customer.class,cust_id);
     }
+	 * */
 
     /**
 	 * 删除客户
-	 * */
 	public void delete(Customer customer) {
 		this.getHibernateTemplate().delete(customer);
 	}
+	 * */
 
 	/**
 	 * 更新客户
-	 * */
+
 	public void update(Customer customer) {
 		this.getHibernateTemplate().update(customer);
 	}
-
+	 * */
 }

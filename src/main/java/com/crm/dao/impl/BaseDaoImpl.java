@@ -8,6 +8,8 @@ import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 import javax.print.attribute.standard.PagesPerMinute;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -18,6 +20,20 @@ import java.util.List;
 public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 
     private Class clazz;
+    public BaseDaoImpl(){
+        //this表示的子类，c表示就是CustomerDaoImpl的Class对象
+        Class c = this.getClass();
+        //第二步：获取到BaseDaoImpl<Customer>
+        Type type = c.getGenericSuperclass();
+        //目的：把type接口转换成子接口
+        if(type instanceof ParameterizedType){
+            ParameterizedType ptype= (ParameterizedType) type;
+
+            //获取到Customer
+            Type[] types = ptype.getActualTypeArguments();
+            this.clazz= (Class) types[0];
+        }
+    }
 
     /**
      * 保存

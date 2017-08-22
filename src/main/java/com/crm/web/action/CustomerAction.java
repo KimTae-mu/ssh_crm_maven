@@ -4,17 +4,22 @@ import com.crm.domain.Customer;
 import com.crm.domain.Dict;
 import com.crm.domain.PageBean;
 import com.crm.service.CustomerService;
+import com.crm.utils.FastJsonUtil;
 import com.crm.utils.UploadUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.util.ValueStack;
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 客户的控制层
@@ -203,6 +208,19 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		customerService.update(customer);
 
 		return "update";
+	}
+
+	/**
+	 * 查询所有联系人
+	 * */
+	public String findAll(){
+		List<Customer> list=customerService.findAll();
+		//转换成json
+		String jsonString = FastJsonUtil.toJSONString(list);
+		HttpServletResponse response = ServletActionContext.getResponse();
+
+		FastJsonUtil.write_json(response,jsonString);
+		return NONE;
 	}
 
 }

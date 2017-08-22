@@ -18,4 +18,6 @@ public interface CustomerService {
     public void delete(Customer customer);
 
     public void update(Customer customer);
+
+    public List<Customer> findAll();
 }

@@ -42,6 +42,7 @@
                 <value>com/crm/domain/User.hbm.xml</value>
                 <value>com/crm/domain/Customer.hbm.xml</value>
                 <value>com/crm/domain/Dict.hbm.xml</value>
+                <value>com/crm/domain/Linkman.hbm.xml</value>
             </list>
         </property>
     </bean>
@@ -94,6 +95,19 @@
     </bean>
 
     <bean id="dictDao" class="com.crm.dao.impl.DictDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--配置联系人模块-->
+    <bean id="linkmanAction" class="com.crm.web.action.LinkmanAction" scope="prototype">
+        <property name="linkmanService" ref="linkmanService"/>
+    </bean>
+
+    <bean id="linkmanService" class="com.crm.service.impl.LinkmanServiceImpl">
+        <property name="linkmanDao" ref="linkmanDao"/>
+    </bean>
+
+    <bean id="linkmanDao" class="com.crm.dao.impl.LinkmanDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
