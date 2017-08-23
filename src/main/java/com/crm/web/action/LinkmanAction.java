@@ -56,4 +56,11 @@ public class LinkmanAction extends BaseAction implements ModelDriven<Linkman> {
 
         return "page";
     }
+
+    /**
+     * 初始化到添加的页面
+     * */
+    public String initAddUI(){
+        return "initAddUI";
+    }
 }

@@ -4,21 +4,43 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<TITLE>添加联系人</TITLE> 
+<TITLE>添加客户拜访</TITLE> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
-<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
-	rel=stylesheet>
-
-
+<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css rel=stylesheet>
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
+
+<!-- 日期插件，使用jquery -->
+<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery-1.4.2.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/jquery/jquery.datepick.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery.datepick.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery.datepick-zh-CN.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		//使用class属性处理  'yy-mm-dd' 设置格式"yyyy/mm/dd"
+		$('#timeId').datepick({dateFormat: 'yy-mm-dd'}); 
+		$('#nextTimeId').datepick({dateFormat: 'yy-mm-dd'});
+
+		//发送ajax请求
+		var url="${pageContext.request.contextPath }/customer_findAll.action";
+		$.ajax({
+		    dataType:"json",
+		    url:url,
+			type:"post",
+			success:function (data) {
+				$(data).each(function () {
+					$("#customerId").append("<option value='"+this.cust_id+"'>"+this.cust_name+"</option>")
+                })
+            }
+		});
+	});
+</script>
+
 </HEAD>
 <BODY>
-	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/linkman_save.action"
-		method=post>
+	<FORM id=form1 name=form1 action="${pageContext.request.contextPath }/visit_save.action" method=post>
 		
-
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -39,7 +61,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：联系人管理 &gt; 添加联系人</TD>
+								<TD class=manageHead>当前位置：客户拜访管理 &gt; 添加客户拜访</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -47,33 +69,46 @@
 						</TABLE>
 						<TABLE cellSpacing=0 cellPadding=5  border=0>
 							<tr>
-								<td>所属客户：</td>
-								<td colspan="3"><input type="text" name="cust_id" style="WIDTH: 180px"/></td>
+								<td>客户名称：</td>
+								<td>
+									<select name="customer.cust_id" id="customerId">
+										
+									</select>
+								</td>
+								
+								<td>拜访时间：</td>
+								<td>
+									<INPUT class=textbox id="timeId" style="WIDTH: 180px" name="visit_time" readonly="readonly">
+								</td>
+								
 							</tr>
+							
 							<TR>
-								<td>联系人名称：</td>
+								<td>被拜访人：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkm_name">
+									<INPUT class=textbox style="WIDTH: 180px" maxLength=50 name="visit_interviewee">
 								</td>
-								<td>联系人性别：</td>
+								<td>拜访地点：</td>
 								<td>
-								<input type="radio" value="1" name="lkm_gender">男
-								<input type="radio" value="2" name="lkm_gender">女
+									<INPUT class=textbox style="WIDTH: 180px" maxLength=50 name="visit_addr">
 								</td>
 							</TR>
+							
 							<TR>
-								<td>联系人办公电话 ：</td>
+								<td>下次拜访时间 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkm_phone">
+									<INPUT class=textbox id="nextTimeId" style="WIDTH: 180px" maxLength=50 name="visit_nexttime">
 								</td>
-								<td>联系人手机 ：</td>
+								
+							</TR>
+							
+							<TR>	
+								<td>拜访详情 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkm_mobile">
+									<textarea rows="5" cols="26" name="visit_detail"></textarea>
 								</td>
 							</TR>
+							
 							<tr>
 								<td rowspan=2>
 								<INPUT class=button id=sButton2 type=submit

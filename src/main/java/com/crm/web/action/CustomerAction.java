@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -221,6 +222,21 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 
 		FastJsonUtil.write_json(response,jsonString);
 		return NONE;
+	}
+
+	/**
+	 * 统计来源客户的数量
+	 * */
+	public String findBySource(){
+		List<Object[]> list=customerService.findBySource();
+		//压栈
+		ValueStack vs = ActionContext.getContext().getValueStack();
+		//栈顶是map<"page",page对象>
+		vs.set("list",list);
+		for (Object[] objects : list) {
+			System.out.println(Arrays.toString(objects));
+		}
+		return "findBySource";
 	}
 
 }

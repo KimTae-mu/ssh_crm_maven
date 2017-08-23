@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:contex="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
@@ -12,6 +12,9 @@
 	http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--开启注解的扫描-->
+    <contex:component-scan base-package="com.crm"/>
 
 
     <!--先配置c3p0的连接池-->
@@ -43,6 +46,7 @@
                 <value>com/crm/domain/Customer.hbm.xml</value>
                 <value>com/crm/domain/Dict.hbm.xml</value>
                 <value>com/crm/domain/Linkman.hbm.xml</value>
+                <value>com/crm/domain/Visit.hbm.xml</value>
             </list>
         </property>
     </bean>

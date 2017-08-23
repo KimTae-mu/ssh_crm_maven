@@ -7,6 +7,7 @@ import com.crm.domain.PageBean;
 import org.hibernate.criterion.DetachedCriteria;
 
 public interface CustomerDao extends BaseDao<Customer> {
+    public List<Object[]> findBySource();
 	
 /*	public void save(Customer customer);
 

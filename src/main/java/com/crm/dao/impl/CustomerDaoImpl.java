@@ -17,6 +17,16 @@ import com.crm.domain.Customer;
 public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDao {
 
 	/**
+	 * 统计客户的来源
+	 * */
+	public List<Object[]> findBySource() {
+		//定义HQL
+		String hql="select c.source.dict_item_name,count(*) from Customer c inner join c.source group by c.source";
+		//查询
+		return (List<Object[]>) this.getHibernateTemplate().find(hql);
+	}
+
+	/**
 	 * 好理解的方式：
 	 * public CustomerDaoImpl() {
 		//调用父类的构造方法
