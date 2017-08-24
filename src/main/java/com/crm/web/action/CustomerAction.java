@@ -233,9 +233,6 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		ValueStack vs = ActionContext.getContext().getValueStack();
 		//栈顶是map<"page",page对象>
 		vs.set("list",list);
-		for (Object[] objects : list) {
-			System.out.println(Arrays.toString(objects));
-		}
 		return "findBySource";
 	}
 

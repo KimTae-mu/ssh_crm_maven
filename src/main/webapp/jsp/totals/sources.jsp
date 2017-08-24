@@ -9,16 +9,6 @@
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
-<%--
-	日期控件，如果使用高版本的jq，控件会失效
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
---%>
-
-	<!-- 日期插件，使用jquery -->
-	<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery-1.4.2.js"></script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath }/jquery/jquery.datepick.css" type="text/css">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery.datepick.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery.datepick-zh-CN.js"></script>
 
 <SCRIPT language=javascript>
 	function to_page(page){
@@ -63,7 +53,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：客户拜访管理 &gt; 客户拜访列表</TD>
+								<TD class=manageHead>当前位置：统计管理 &gt; 客户来源统计</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -76,22 +66,7 @@
 									<TD height=25>
 										<TABLE cellSpacing=0 cellPadding=2 border=0>
 											<TBODY>
-												<TR>
-													<TD>联系人名称：</TD>
-													<TD>
-														<INPUT class=textbox id=sChannel2 style="WIDTH: 80px" maxLength=50 name="lkm_name">
-													</TD>
 
-													<TD>选择日期：</TD>
-													<TD>
-														<INPUT class=textbox id="beginDate" style="WIDTH: 80px" maxLength=50 name="beginDate">
-														至
-														<INPUT class=textbox id="endDate" style="WIDTH: 80px" maxLength=50 name="endDate">
-													</TD>
-													
-													<TD><INPUT class=button id=sButton2 type=submit
-														value=" 筛选 " name=sButton2></TD>
-												</TR>
 											</TBODY>
 										</TABLE>
 									</TD>
@@ -105,24 +80,15 @@
 											<TBODY>
 												<TR
 													style="FONT-WEIGHT: bold; FONT-STYLE: normal; BACKGROUND-COLOR: #eeeeee; TEXT-DECORATION: none">
-													<TD>拜访客户</TD>
-													<TD>拜访时间</TD>
-													<TD>被拜访人</TD>
-													<TD>拜访地点</TD>
-													<TD>拜访详情</TD>
-													<TD>下次拜访时间</TD>
+													<TD>客户来源</TD>
+													<TD>客户人数</TD>
 												</TR>
-												<c:forEach items="${page.beanList}" var="visit">
+												<c:forEach items="${list}" var="obj">
 												<TR
 													style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD>${visit.customer.cust_name }</TD>
-													<TD>${visit.visit_time }</TD>
-													<TD>${visit.visit_interviewee }</TD>
-													<TD>${visit.visit_addr }</TD>
-													<TD>${visit.visit_detail }</TD>
-													<TD>${visit.visit_nexttime }</TD>
+													<TD>${obj[0] }</TD>
+													<TD>${obj[1] }</TD>
 												</TR>
-												
 												</c:forEach>
 
 											</TBODY>
@@ -132,33 +98,7 @@
 								
 								<TR>
 									<TD>
-										<SPAN id=pagelink>
-											<DIV
-													style="LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: right">
-												共[<B>${page.totalCount}</B>]条记录,共[<B>${page.totalPage}</B>]页
-												,每页显示
-												<select name="pageSize">
-
-												<option value="2"
-														<c:if test="${page.pageSize==2 }">selected</c:if>>2</option>
-												<option value="3"
-														<c:if test="${page.pageSize==3 }">selected</c:if>>3</option>
-												</select>
-												条
-												<c:if test="${page.pageCode > 1 }">
-													[<A href="javascript:to_page(${page.pageCode-1 })">前一页</A>]
-												</c:if>
-												<B>${page.pageCode }</B>
-												<c:if test="${page.pageCode < page.totalPage }">
-													[<A href="javascript:to_page(${page.pageCode+1 })">后一页</A>]
-												</c:if>
-												到
-												<input type="text" size="3" id="page" name="pageCode"/>
-												页
-
-												<input type="button" value="Go" onclick="to_page()"/>
-											</DIV>
-									</SPAN>
+										<%@include file="/jsp/page.jsp" %>
 									</TD>
 								</TR>
 							</TBODY>

@@ -182,6 +182,7 @@
 								
 								<TR>
 									<TD>
+										<%--使用静态引入--%>
 										<%@include file="/jsp/page.jsp" %>
 									</TD>
 								</TR>

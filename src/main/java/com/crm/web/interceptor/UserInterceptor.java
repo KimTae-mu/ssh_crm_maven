@@ -18,13 +18,13 @@ public class UserInterceptor extends MethodFilterInterceptor {
     /**
      * 拦截目标Action的方法
      * */
-    protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
+    protected String doIntercept(ActionInvocation invocation) throws Exception {
         //获取session
         User user= (User) ServletActionContext.getRequest().getSession().getAttribute("existUser");
         if(user == null){
             return "login";
         }
         //执行下一个拦截器
-        return actionInvocation.invoke();
+        return invocation.invoke();
     }
 }
